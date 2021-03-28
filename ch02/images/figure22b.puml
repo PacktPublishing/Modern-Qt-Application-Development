@@ -1,0 +1,17 @@
+@startuml
+skinparam objectFontName Calibri
+skinparam monochrome true
+
+object topLevelWidget
+object layout
+object "new QLabel" as QLabel
+object "new QLineEdit" as QLineEdit
+object "new QWidgetLineControl" as QWidgetLineControl
+object "new QCheckBox" as QCheckBox
+
+topLevelWidget -- layout
+topLevelWidget -- QLabel
+topLevelWidget -- QLineEdit
+QLineEdit -- QWidgetLineControl
+topLevelWidget -- QCheckBox
+@enduml

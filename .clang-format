@@ -1,0 +1,17 @@
+---
+Language: Cpp
+Standard: Latest
+BasedOnStyle: GNU
+Cpp11BracedListStyle: true
+
+AccessModifierOffset: -3
+AllowAllParametersOfDeclarationOnNextLine: false
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+BreakBeforeBraces: Linux
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: 66
+IndentWidth: 3
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 2
+...
