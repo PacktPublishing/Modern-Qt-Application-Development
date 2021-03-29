@@ -21,37 +21,58 @@
 ***************************************************************************/
 // clang-format on
 
-#include <QApplication>
-#include <QCheckBox>
 #include <QDebug>
-#include <QLabel>
-#include <QLineEdit>
+#include <QIcon>
 #include <QRegularExpression>
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "myapplication.h"
+#include "myevent.h"
+#include "myeventfilter.h"
+#include "mylabel.h"
+#include "mylineedit.h"
+
 int main(int argc, char **argv)
 {
-   QApplication app{argc, argv};
+   // MyApplication reimplements notify() (approach 2)
+   MyApplication app{argc, argv};
    QApplication::setWindowIcon(
        QIcon{QStringLiteral(":/icons/qtlogo.svg")});
 
    auto *topLevelWidget = new QWidget;
+   // Installing an event filter on QApplication (approach 3)
+   auto *myEventFilter = new MyEventFilter{topLevelWidget};
+   app.installEventFilter(myEventFilter);
+
    topLevelWidget->setWindowTitle(QObject::tr("Layout Example"));
    auto *layout = new QVBoxLayout{topLevelWidget};
-   layout->addWidget(new QLabel{QObject::tr("My Label")});
-   layout->addWidget(new QLineEdit{QObject::tr("Change me!")});
-   layout->addWidget(new QCheckBox{QObject::tr("Check me!")});
+
+   // MyLabel reimplements a specific event handler (approach 1)
+   layout->addWidget(
+       new MyLabel{QObject::tr("Mouse enter/leave me!")});
+   // MyLineEdit reimplements event() (approach 4)
+   auto *myLineEdit
+       = new MyLineEdit{QObject::tr("Key press me!")};
+   layout->addWidget(myLineEdit);
+
+   // Installing an event filter on target object (approach 5)
+   myLineEdit->installEventFilter(myEventFilter);
+
    topLevelWidget->show();
 
-   layout->setObjectName(QStringLiteral("myLayout"));
-   topLevelWidget->findChildren<QObject *>().at(1)->setObjectName(
-       QStringLiteral("myLayout"));
-   qDebug() << topLevelWidget->findChild<QLabel *>();
-   qDebug() << topLevelWidget->findChild<QVBoxLayout *>(
-       QStringLiteral("myLayout"));
-   qDebug() << topLevelWidget->findChildren<QObject *>(
-       QRegularExpression(QStringLiteral("^.*Layout$")));
+   // Sending a custom event
+   {
+      MyEvent myEvent;
+      qDebug() << "Sending custom event";
+      QApplication::sendEvent(&app, &myEvent);
+      qDebug() << "Custom event sent";
+   }
+
+   // Posting a custom event
+   qDebug() << "Posting custom event";
+   QApplication::postEvent(&app, new MyEvent);
+   qDebug() << "Custom event posted";
 
    QObject::connect(&app, &QApplication::aboutToQuit,
                     [=]() { delete topLevelWidget; });

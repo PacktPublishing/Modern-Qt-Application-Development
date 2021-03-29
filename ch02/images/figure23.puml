@@ -1,0 +1,56 @@
+@startuml
+skinparam classFontName Calibri
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+hide empty members
+hide circle
+
+class QEvent {
++QEvent::Type type() const
+}
+
+class QTimerEvent {
++int timerId() const
+}
+
+class QResizeEvent {
++ const QSize &oldSize() const
++ const QSize &size() const
+}
+
+class QInputEvent {
++ QInputDevice::DeviceType deviceType() const
+}
+
+class QKeyEvent {
++ int key() const
+}
+
+class QSinglePointEvent {
++ Qt::MouseButton button() const
+}
+
+class QMouseEvent {
++ QPoint pos() const
+}
+
+class QHoverEvent {
++ QPoint oldPos() const
++ QPoint pos() const
+}
+
+class QWheelEvent {
++ QPoint pixelDelta() const
+}
+
+QEvent <|-- QTimerEvent
+QEvent <|-- QResizeEvent
+QEvent <|-- QInputEvent
+QInputEvent <|-- QKeyEvent
+QInputEvent <|-- QPointerEvent
+QPointerEvent <|-- QSinglePointEvent
+QSinglePointEvent <|-- QMouseEvent
+QSinglePointEvent <|-- QHoverEvent
+QSinglePointEvent <|-- QWheelEvent
+
+@enduml
