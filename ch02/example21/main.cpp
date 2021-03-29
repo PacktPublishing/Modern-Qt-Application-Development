@@ -53,9 +53,9 @@ int main(int argc, char **argv)
    qDebug() << topLevelWidget->findChildren<QObject *>(
        QRegularExpression(QStringLiteral("^.*Layout$")));
 
-   auto ret = QApplication::exec();
+   QObject::connect(&app, &QApplication::aboutToQuit, [=]() {
+      delete topLevelWidget;
+   });
 
-   delete topLevelWidget;
-
-   return ret;
+   return QApplication::exec();
 }
