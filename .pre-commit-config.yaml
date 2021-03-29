@@ -1,9 +1,4 @@
 repos:
-  - repo: https://github.com/pocc/pre-commit-hooks
-    rev: python
-    hooks:
-      - id: clang-format
-        args: [-i]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.4.0
     hooks:

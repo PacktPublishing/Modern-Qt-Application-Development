@@ -31,7 +31,7 @@ int main(int argc, char **argv)
    Q_UNUSED(argc)
    Q_UNUSED(argv)
 
-   Car myCar{1};
+   Car myCar{1};  // Creates a car with id=1
 
    // Handling properties using accessors and mutators
    myCar.setObjectName(QStringLiteral("My car"));
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
    qDebug() << "My car's brand:" << myCar.brand() << Qt::endl;
 
    // Handling properties using Qt's property system
-   myCar.setProperty("id", 2);
+   myCar.setProperty("id", 2);  // This fails silently
    myCar.setProperty("brand", QStringLiteral("AmazingQtCar"));
    myCar.setProperty("engine", Engine{120, 6});
    myCar.setProperty("type", Car::SUV);
@@ -60,9 +60,22 @@ int main(int argc, char **argv)
    auto *metaObject = myCar.metaObject();
    for (int i = 0; i < metaObject->propertyCount(); ++i) {
       auto metaProperty = metaObject->property(i);
-      qDebug() << "\t" << metaProperty.name() << ":"
-               << metaProperty.read(&myCar);
+      qDebug().nospace() << "\t" << metaProperty.name() << ": "
+                         << metaProperty.read(&myCar);
    }
+
+   // Showing all static properties with ancestor names
+   qDebug() << "MyCar's static properties with ancestor names:";
+   metaObject = myCar.metaObject();
+   do {
+      for (int i = metaObject->propertyOffset();
+           i < metaObject->propertyCount(); ++i) {
+         auto metaProperty = metaObject->property(i);
+         qDebug().nospace() << "\t" << metaObject->className()
+                            << "::" << metaProperty.name() << ": "
+                            << metaProperty.read(&myCar);
+      }
+   } while ((metaObject = metaObject->superClass()));
 
    // Showing all dynamic properties
    qDebug() << Qt::endl << "MyCar's dynamic properties:";

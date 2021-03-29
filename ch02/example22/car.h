@@ -31,17 +31,14 @@
 struct Engine {
    qreal horsepower;
    qint16 cylinders;
-   bool operator!=(Engine other)
-   {
+   bool operator!=(Engine other) {
       return horsepower != other.horsepower
              || cylinders != other.cylinders;
    }
-   operator QVariant() const
-   {
+   operator QVariant() const {
       return QVariant::fromValue(*this);
    }
-   friend QDebug operator<<(QDebug dbg, Engine engine)
-   {
+   friend QDebug operator<<(QDebug dbg, Engine engine) {
       dbg << "Engine [ horsepower:" << engine.horsepower
           << ", cylinders:" << engine.cylinders << "]";
       return dbg;
@@ -49,27 +46,31 @@ struct Engine {
 };
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-Q_DECLARE_METATYPE(Engine)
+Q_DECLARE_METATYPE(Engine)  // No longer required in Qt 6
 #endif
 
 class Car : public QObject
 {
    Q_OBJECT
    Q_PROPERTY(int id MEMBER _id CONSTANT)
-   Q_PROPERTY(QString brand READ brand WRITE setBrand NOTIFY
-                  brandChanged)
-   Q_PROPERTY(Engine engine MEMBER _engine NOTIFY engineChanged)
-   Q_PROPERTY(Car::Type type MEMBER _type NOTIFY typeChanged)
+   Q_PROPERTY(QString brand READ brand WRITE setBrand
+                            NOTIFY brandChanged)
+   Q_PROPERTY(Engine engine MEMBER _engine
+                            NOTIFY engineChanged)
+   Q_PROPERTY(Car::Type type MEMBER _type
+                            NOTIFY typeChanged)
 
 public:
-   explicit Car(int id, const QString &brand = {},
-                Engine engine = {}, QObject *parent = nullptr);
+   Car(int id, const QString &brand = {}, Engine engine = {},
+       QObject *parent = nullptr);
 
    enum Type { HATCHBACK = 0, SUV, PICKUP };
    // cppcheck-suppress unknownMacro
    Q_ENUM(Type)
 
    QString brand() const;
+
+public Q_SLOTS:
    void setBrand(const QString &brand);
 
 Q_SIGNALS:
