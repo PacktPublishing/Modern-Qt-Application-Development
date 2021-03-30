@@ -1,0 +1,10 @@
+blockdiag {
+   default_fontsize = 15;
+   node_width = 250;  // default value is 128
+
+   qtfile [label = "Class declaration with\nthe Q_OBJECT macro"];
+   moc [label = "Qt's Meta-Object\nCompiler", shape = circle, color = "#41CD52", textcolor = "white", width = 110, height = 110];
+   cppfile [label = "Additional plain\nC++ code for such a class"];
+
+   qtfile -> moc -> cppfile;
+}

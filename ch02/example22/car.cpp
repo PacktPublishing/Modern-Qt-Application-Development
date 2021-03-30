@@ -31,6 +31,16 @@ Car::Car(int id, const QString &brand, Engine engine,
     , _brand{brand}
     , _engine{engine}
 {
+   int carId = 0;
+   void *_a[] = {&carId};
+   Car::qt_static_metacall(
+       this,                       // pointer to target instance
+       QMetaObject::ReadProperty,  // type of metacall
+       0,                          // relative property index,
+                                   // id is the first property in Car
+       _a                          // array of return value and args
+   );
+   qDebug() << "My car's id:" << carId;
 }
 
 QString Car::brand() const { return _brand; }
