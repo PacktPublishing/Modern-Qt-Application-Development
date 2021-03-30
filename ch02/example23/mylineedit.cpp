@@ -26,7 +26,8 @@
 #include <QDebug>
 #include <QKeyEvent>
 
-MyLineEdit::MyLineEdit(const QString &contents, QWidget *parent)
+MyLineEdit::MyLineEdit(const QString &contents,
+                       QWidget *parent)
     : QLineEdit(contents, parent)
 {
 }
@@ -34,7 +35,7 @@ MyLineEdit::MyLineEdit(const QString &contents, QWidget *parent)
 bool MyLineEdit::event(QEvent *event)
 {
    if (event->type() == QEvent::KeyPress) {
-      auto *keyEvent = static_cast<QKeyEvent *>(event);
+      auto *keyEvent = dynamic_cast<QKeyEvent *>(event);
       qDebug() << "MyLineEdit::event: keypress event - key:"
                << keyEvent->key();
    }

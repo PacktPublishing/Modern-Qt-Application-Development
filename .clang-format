@@ -10,7 +10,7 @@ AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
 BreakBeforeBraces: Linux
 BreakConstructorInitializers: BeforeComma
-ColumnLimit: 66
+ColumnLimit: 63
 IndentWidth: 3
 SpaceBeforeParens: ControlStatements
 SpacesBeforeTrailingComments: 2

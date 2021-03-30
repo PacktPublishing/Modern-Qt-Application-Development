@@ -52,12 +52,9 @@ int main(int argc, char **argv)
             << myCar.property("type").value<Car::Type>()
             << Qt::endl;
 
-   // Creating a dynamic property
-   myCar.setProperty("currentSpeed", 51.7);
-
    // Showing all static properties
    qDebug() << "MyCar's static properties:";
-   auto *metaObject = myCar.metaObject();
+   const auto *metaObject = myCar.metaObject();
    for (int i = 0; i < metaObject->propertyCount(); ++i) {
       auto metaProperty = metaObject->property(i);
       qDebug().nospace() << "\t" << metaProperty.name() << ": "
@@ -65,21 +62,27 @@ int main(int argc, char **argv)
    }
 
    // Showing all static properties with ancestor names
-   qDebug() << "MyCar's static properties with ancestor names:";
+   qDebug()
+       << "MyCar's static properties with ancestor names:";
    metaObject = myCar.metaObject();
    do {
       for (int i = metaObject->propertyOffset();
            i < metaObject->propertyCount(); ++i) {
          auto metaProperty = metaObject->property(i);
-         qDebug().nospace() << "\t" << metaObject->className()
-                            << "::" << metaProperty.name() << ": "
-                            << metaProperty.read(&myCar);
+         qDebug().nospace()
+             << "\t" << metaObject->className()
+             << "::" << metaProperty.name() << ": "
+             << metaProperty.read(&myCar);
       }
    } while ((metaObject = metaObject->superClass()));
 
+   // Creating a dynamic property
+   myCar.setProperty("currentSpeed", 51.7);
+
    // Showing all dynamic properties
    qDebug() << Qt::endl << "MyCar's dynamic properties:";
-   for (const auto &propertyName : myCar.dynamicPropertyNames()) {
+   for (const auto &propertyName :
+        myCar.dynamicPropertyNames()) {
       qDebug() << "\t" << propertyName << ":"
                << myCar.property(propertyName);
    }

@@ -21,6 +21,7 @@
 ***************************************************************************/
 // clang-format on
 
+#include <QCheckBox>
 #include <QDebug>
 #include <QIcon>
 #include <QRegularExpression>
@@ -35,29 +36,35 @@
 
 int main(int argc, char **argv)
 {
-   // MyApplication reimplements notify() (approach 2)
+   // MyApplication reimplements notify() (approach 5)
    MyApplication app{argc, argv};
    QApplication::setWindowIcon(
        QIcon{QStringLiteral(":/icons/qtlogo.svg")});
 
    auto *topLevelWidget = new QWidget;
-   // Installing an event filter on QApplication (approach 3)
+   topLevelWidget->setWindowTitle(
+       QObject::tr("Events Example"));
+
+   // Installing an event filter on QApplication (approach 5)
    auto *myEventFilter = new MyEventFilter{topLevelWidget};
    app.installEventFilter(myEventFilter);
 
-   topLevelWidget->setWindowTitle(QObject::tr("Layout Example"));
    auto *layout = new QVBoxLayout{topLevelWidget};
 
-   // MyLabel reimplements a specific event handler (approach 1)
+   // MyLabel reimplements a specific event handler (approach
+   // 2)
    layout->addWidget(
        new MyLabel{QObject::tr("Mouse enter/leave me!")});
-   // MyLineEdit reimplements event() (approach 4)
-   auto *myLineEdit
-       = new MyLineEdit{QObject::tr("Key press me!")};
-   layout->addWidget(myLineEdit);
 
-   // Installing an event filter on target object (approach 5)
-   myLineEdit->installEventFilter(myEventFilter);
+   // MyLineEdit reimplements event() (approach 3)
+   layout->addWidget(
+       new MyLineEdit{QObject::tr("Key press me!")});
+
+   auto *checkBox = new QCheckBox{QObject::tr("Check me!")};
+   layout->addWidget(checkBox);
+
+   // Installing an event filter on target object (approach 1)
+   checkBox->installEventFilter(myEventFilter);
 
    topLevelWidget->show();
 
@@ -67,7 +74,7 @@ int main(int argc, char **argv)
       qDebug() << "Sending custom event";
       QApplication::sendEvent(&app, &myEvent);
       qDebug() << "Custom event sent";
-   }
+   }  // Check for myEvent destruction here
 
    // Posting a custom event
    qDebug() << "Posting custom event";

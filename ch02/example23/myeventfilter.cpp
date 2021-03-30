@@ -29,12 +29,29 @@
 MyEventFilter::MyEventFilter(QObject *parent)
     : QObject(parent)
 {
+   // NOLINTNEXTLINE(google-build-using-namespace)
+   using namespace std::chrono;  // NOLINT(build/namespaces)
+   startTimer(5s);
+
+   QTimer::singleShot(
+       3s, this, []() { qDebug() << "Single-shot timer"; });
+   connect(&_timer, &QTimer::timeout, this,
+           []() { qDebug() << "Periodic timer"; });
+   _timer.start(10s);
 }
 
 // cppcheck-suppress unusedFunction
-bool MyEventFilter::eventFilter(QObject *watched, QEvent *event)
+bool MyEventFilter::eventFilter(QObject *watched,
+                                QEvent *event)
 {
    qDebug() << "MyEventFilter::eventFilter:" << event->type()
             << "event on" << watched;
    return false;
+}
+
+// cppcheck-suppress unusedFunction
+void MyEventFilter::timerEvent(QTimerEvent *event)
+{
+   qDebug() << "MyEventFilter::timerEvent: timer ID ="
+            << event->timerId();
 }

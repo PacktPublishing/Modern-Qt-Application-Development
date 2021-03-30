@@ -31,14 +31,18 @@
 struct Engine {
    qreal horsepower;
    qint16 cylinders;
-   bool operator!=(Engine other) {
+   bool operator!=(Engine other) const
+   {
       return horsepower != other.horsepower
              || cylinders != other.cylinders;
    }
-   operator QVariant() const {
+   // NOLINTNEXTLINE(google-explicit-constructor,hicpp-explicit-conversions)
+   operator QVariant() const
+   {
       return QVariant::fromValue(*this);
    }
-   friend QDebug operator<<(QDebug dbg, Engine engine) {
+   friend QDebug operator<<(QDebug dbg, Engine engine)
+   {
       dbg << "Engine [ horsepower:" << engine.horsepower
           << ", cylinders:" << engine.cylinders << "]";
       return dbg;
@@ -53,16 +57,15 @@ class Car : public QObject
 {
    Q_OBJECT
    Q_PROPERTY(int id MEMBER _id CONSTANT)
-   Q_PROPERTY(QString brand READ brand WRITE setBrand
-                            NOTIFY brandChanged)
-   Q_PROPERTY(Engine engine MEMBER _engine
-                            NOTIFY engineChanged)
-   Q_PROPERTY(Car::Type type MEMBER _type
-                            NOTIFY typeChanged)
+   Q_PROPERTY(QString brand READ brand WRITE setBrand NOTIFY
+                  brandChanged)
+   Q_PROPERTY(
+       Engine engine MEMBER _engine NOTIFY engineChanged)
+   Q_PROPERTY(Car::Type type MEMBER _type NOTIFY typeChanged)
 
 public:
-   Car(int id, const QString &brand = {}, Engine engine = {},
-       QObject *parent = nullptr);
+   explicit Car(int id, const QString &brand = {},
+                Engine engine = {}, QObject *parent = nullptr);
 
    enum Type { HATCHBACK = 0, SUV, PICKUP };
    // cppcheck-suppress unknownMacro

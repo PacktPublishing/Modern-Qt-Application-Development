@@ -23,13 +23,15 @@
 
 #include "car.h"
 
+// NOLINTNEXTLINE(modernize-pass-by-value)
 Car::Car(int id, const QString &brand, Engine engine,
          QObject *parent)
     : QObject{parent}
     , _id{id}
     , _brand{brand}
     , _engine{engine}
-{ }
+{
+}
 
 QString Car::brand() const { return _brand; }
 

@@ -39,9 +39,9 @@ protected:
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
    virtual void enterEvent(QEvent *event);
 #else
-   virtual void enterEvent(QEnterEvent *event);
+   void enterEvent(QEnterEvent *event) override;
 #endif
-   virtual void leaveEvent(QEvent *event);
+   void leaveEvent(QEvent *event) override;
 };
 
 #endif  // CH02_EXAMPLE23_MYLABEL_H_

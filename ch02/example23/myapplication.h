@@ -33,7 +33,7 @@ class MyApplication : public QApplication
 public:
    MyApplication(int &argc, char **argv);
 
-   virtual bool notify(QObject *receiver, QEvent *event);
+   bool notify(QObject *receiver, QEvent *event) override;
 };
 
 #endif  // CH02_EXAMPLE23_MYAPPLICATION_H_

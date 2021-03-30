@@ -32,10 +32,11 @@ MyApplication::MyApplication(int &argc, char **argv)
 
 bool MyApplication::notify(QObject *receiver, QEvent *event)
 {
-   if (event->type() == QEvent::Enter
-       || event->type() == QEvent::Leave) {
-      qDebug() << "MyApplication::notify:" << event->type()
-               << "event on" << receiver;
-   }
+   //   if (event->type() == QEvent::Enter
+   //       || event->type() == QEvent::Leave) {
+   //      qDebug() << "MyApplication::notify:" <<
+   //      event->type()
+   //               << "event on" << receiver;
+   //   }
    return QApplication::notify(receiver, event);
 }

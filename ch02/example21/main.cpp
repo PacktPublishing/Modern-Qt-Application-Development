@@ -37,7 +37,8 @@ int main(int argc, char **argv)
        QIcon{QStringLiteral(":/icons/qtlogo.svg")});
 
    auto *topLevelWidget = new QWidget;
-   topLevelWidget->setWindowTitle(QObject::tr("Layout Example"));
+   topLevelWidget->setWindowTitle(
+       QObject::tr("Layout Example"));
    auto *layout = new QVBoxLayout{topLevelWidget};
    layout->addWidget(new QLabel{QObject::tr("My Label")});
    layout->addWidget(new QLineEdit{QObject::tr("Change me!")});
@@ -45,8 +46,9 @@ int main(int argc, char **argv)
    topLevelWidget->show();
 
    layout->setObjectName(QStringLiteral("myLayout"));
-   topLevelWidget->findChildren<QObject *>().at(1)->setObjectName(
-       QStringLiteral("myLayout"));
+   topLevelWidget->findChildren<QObject *>()
+       .at(1)
+       ->setObjectName(QStringLiteral("myLayout"));
    qDebug() << topLevelWidget->findChild<QLabel *>();
    qDebug() << topLevelWidget->findChild<QVBoxLayout *>(
        QStringLiteral("myLayout"));

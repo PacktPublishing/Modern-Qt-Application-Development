@@ -32,7 +32,7 @@ class MyEvent : public QEvent
 
 public:
    MyEvent();
-   virtual ~MyEvent();
+   ~MyEvent() override;
 };
 
 #endif  // CH02_EXAMPLE23_MYEVENT_H_

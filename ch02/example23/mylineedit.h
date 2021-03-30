@@ -34,7 +34,7 @@ public:
    explicit MyLineEdit(const QString &contents,
                        QWidget *parent = nullptr);
 
-   virtual bool event(QEvent *event);
+   bool event(QEvent *event) override;
 };
 
 #endif  // CH02_EXAMPLE23_MYLINEEDIT_H_

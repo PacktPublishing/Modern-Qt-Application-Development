@@ -25,13 +25,21 @@
 #define CH02_EXAMPLE23_MYEVENTFILTER_H_
 
 #include <QObject>
+#include <QTimer>
 
 class MyEventFilter : public QObject
 {
    Q_OBJECT
+
 public:
    explicit MyEventFilter(QObject *parent = nullptr);
-   virtual bool eventFilter(QObject *watched, QEvent *event);
+   bool eventFilter(QObject *watched, QEvent *event) override;
+
+protected:
+   void timerEvent(QTimerEvent *event) override;
+
+private:
+   QTimer _timer;
 };
 
 #endif  // CH02_EXAMPLE23_MYEVENTFILTER_H_
